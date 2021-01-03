@@ -12,9 +12,8 @@ bin/go-websocket-server : go/src/*
     	go build -o ./go/bin/$$pkg ./go/src/$$pkg || echo skipped ; \
 	done
 
-bin/websocket-bench : go/websocket-bench/cmd/websocket-bench go/websocket-bench/benchmark/*
-	echo $<
-	go build -o ./$@ ./$<
+bin/websocket-bench : go/websocket-bench/**
+	go build -o ./$@ $(shell dirname ./$<)
 
 bin/cpp-websocket-server : cpp/src/*
 	g++ -std=c++14 -I cpp/vendor/jsoncpp/include cpp/src/*.cpp cpp/vendor/jsoncpp/src/jsoncpp.cpp -lboost_system -lboost_thread -O2 -o bin/cpp-websocket-server
