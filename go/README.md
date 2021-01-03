@@ -1,18 +1,18 @@
 # Go
+As this mentioned [this post](https://www.reddit.com/r/golang/comments/gjjb9e/are_there_any_benchmark_results_available_for/), there are some websocket libraries for Go as of Jan. 2021.
+
+ 1. [x/net/websocket](golang.org/x/net/websocket)
+ 1. [Gorilla Websocket](https://github.com/gorilla/websocket/)
+ 1. [Gobwas Websocket](https://github.com/gobwas/ws)
+ 1. [go-socket-io](https://github.com/googollee/go-socket.io)
+ 1. [nhooyr/websocket](https://github.com/nhooyr/websocket)
 
 ## Dependencies
 
-* Go 1.7
+* Go 1.15
 
-All other dependencies are vendored in the project GOPATH with git submodules.
-
-Download them with the following commands:
-
-```
-git submodule init
-git submodule update
-```
-
+~~All other dependencies are vendored in the project GOPATH with git submodules.~~
+To apply Go Modules adopted after Go 1.11, vendored directories were discarded.
 
 ## Building the server
 
@@ -22,16 +22,9 @@ From the top-level project directory:
 make
 ```
 
-If you want to run any go commands directly you will need to set the environment as follows from top-level project root:
-
-```
-export GOPATH=`pwd`/go
-export PATH=$GOPATH/bin:$PATH
-```
-
 ## Websocket Server
 
-The websocket server is located in `./src/hashrocket/go-websocket-server`.
+The websocket server is located in `./bin/go-websocket-server`.
 
 To run the go Server
 

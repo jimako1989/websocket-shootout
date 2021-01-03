@@ -1,5 +1,3 @@
-GOPATH=$(CURDIR)/go
-
 .PHONY : all
 all : \
     bin/go-websocket-server \
@@ -9,17 +7,14 @@ all : \
     bin/haskell-warp-ws-server \
     bin/haskell-warp-ws-server-nochan
 
-bin/go-websocket-server : $(GOPATH)/bin/go-websocket-server
-	cp $< $@
+bin/go-websocket-server : go/src/*
+	for pkg in $(shell ls go/src) ; do \
+    	go build -o ./go/bin/$$pkg ./go/src/$$pkg || echo skipped ; \
+	done
 
-bin/websocket-bench : $(GOPATH)/bin/websocket-bench
-	cp $< $@
-
-$(GOPATH)/bin/go-websocket-server : $(GOPATH)/src/hashrocket/go-websocket-server/*.go
-	cd go/src/hashrocket/go-websocket-server && go install
-
-$(GOPATH)/bin/websocket-bench : $(GOPATH)/src/hashrocket/websocket-bench/benchmark/*.go $(GOPATH)/src/hashrocket/websocket-bench/cmd/websocket-bench/*.go
-	cd go/src/hashrocket/websocket-bench/cmd/websocket-bench && go install
+bin/websocket-bench : go/websocket-bench/cmd/websocket-bench go/websocket-bench/benchmark/*
+	echo $<
+	go build -o ./$@ ./$<
 
 bin/cpp-websocket-server : cpp/src/*
 	g++ -std=c++14 -I cpp/vendor/jsoncpp/include cpp/src/*.cpp cpp/vendor/jsoncpp/src/jsoncpp.cpp -lboost_system -lboost_thread -O2 -o bin/cpp-websocket-server
